@@ -5,7 +5,7 @@ import numpy as np
 from scipy.interpolate import interp1d
 import matplotlib.pyplot as plt
 
-def get_sensitivity(fname="macho_limits.yaml"):
+def get_sensitivity(fname="data/macho_limits.yaml"):
     """Load the MACHO limits from disc."""
     with open(fname, 'r') as ff:
         data = yaml.safe_load(ff)
@@ -27,10 +27,11 @@ def discovery(mass, fraction, LSSTfrac, label="$5-\sigma$ Discovery Constraints"
     #mm = 30
     #ff = 0.01
     yerror = fraction*np.array([frac, frac])
+    xerror = np.array([mass - mass/1.5, mass*1.5-mass])
     #xerror = np.array([mm - mm/1.5, mm*1.5-mm])
     #print(yerror, frac2)
     subsample = 12
-    plt.errorbar(mass[::subsample], fraction[::subsample], fmt='o', capsize=5, yerr=yerror[:,::subsample].reshape(2,-1), label=label)#, xerr=xerror.reshape(2,-1))
+    plt.errorbar(mass[::subsample], fraction[::subsample], fmt='o', capsize=5, yerr=yerror[:,::subsample].reshape(2,-1), label=label, xerr=xerror[:,::subsample].reshape(2,-1))
     plt.plot(mass, fraction, label="PBH Population", color="black")
     plt.yscale('log')
     plt.xscale('log')
@@ -43,7 +44,7 @@ masses = np.logspace(-3.0, 4, 100)
 
 def pbh_mass_func(mass, mc = 30, sigma=0.5, fpbh = 0.05):
     """Lognormal mass function from 1705.05567 eq 3"""
-    return fpbh / np.sqrt(2*np.pi) * np.exp(-1*np.log(mass/mc)**2/2*sigma**2)
+    return fpbh / np.sqrt(2*np.pi) * np.exp(-1*np.log(mass/mc)**2/(2*sigma**2))
 
 
 fractions = pbh_mass_func(masses)
