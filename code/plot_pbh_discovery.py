@@ -208,8 +208,9 @@ fpbh_err[uplims] = 1.0
 
 print("PBH events observed by LSST: %.0f"%(nobs.sum()))
 
-color='k'
+### Plot the number of observed events ###
 
+color='k'
 fig,ax = plt.subplots(1,1,figsize=(8,5))
 plt.subplots_adjust(top=0.95,bottom=0.15)
 plt.errorbar(masses,nobs,yerr=nobs_err,xerr=mass_err,uplims=uplims,capsize=5);
@@ -219,6 +220,9 @@ plt.xscale('log')
 plt.xlabel(r"Compact Object Mass ($M_\odot$)")
 plt.ylabel(r"Number of Compact Objects")
 plt.savefig("pbh_nobserved.pdf")
+
+
+### Plot the dark matter fraction ###
 
 fig,ax = plt.subplots(1,1,figsize=(8,5))
 ax.set_yscale('log')
