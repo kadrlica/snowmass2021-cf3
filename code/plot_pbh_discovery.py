@@ -1,5 +1,5 @@
 """
-Plot showing the expected sensitivity for a positive detection of PBHs with LSST/Roman.
+Plot the expected signal for a positive detection of PBHs with LSST.
 
 References:
 1709.07467 - Bellomo "Primordial Black Holes as Dark Matter: Converting Constraints from Monochromatic to Extended Mass Distributions"
@@ -21,6 +21,16 @@ from scipy.interpolate import interp1d
 from lsstplot import plot_one, plot_two, plot_limit, plot_lsst_limit
 
 def plot_macho_limits(filename="macho_limits.yaml"):
+    """ Plot existing and projected limits.
+
+    Parameters
+    ----------
+    fiilename : filename
+
+    Returns
+    -------
+    None
+    """
     limits = yaml.load(open(filename))
 
     plot_lsst_limit(limits['lsst_microlensing'])
@@ -173,6 +183,14 @@ mass_func = lambda mass: pbh_mass_func(mass, MC, SIGMA, FPBH)
 # Check that the pbh mass function is properly normalized
 assert np.allclose(quad(mass_func,0,np.inf)[0], FPBH)
 
+print("PBH mass function parameters:")
+print("  fpbh:  %.3f"%FPBH)
+print("  Mc   : %.1f Msun"%MC)
+print("  sigma: %.1f"%SIGMA)
+
+ntotal = number_of_events(FPBH)
+print("PBH events: %.0f"%ntotal)
+
 ## Integrate fpbh more finely
 full_masses = np.logspace(-1,4,100)
 #full_masses, full_fpbh = integrate_pbh_mass_func(np.logspace(-1,4,100), mass_func)
@@ -187,20 +205,20 @@ mass_err = [masses - mass_bins[:-1], mass_bins[1:] - masses]
 uplims = nobs <= 1
 nobs_err[uplims] = 1.0
 fpbh_err[uplims] = 1.0
-nobs[uplims] = np.nan
-fpbh[uplims] = np.nan
+
+print("PBH events observed by LSST: %.0f"%(nobs.sum()))
 
 color='k'
 
 fig,ax = plt.subplots(1,1,figsize=(8,5))
 plt.subplots_adjust(top=0.95,bottom=0.15)
-plt.errorbar(masses,nobs,yerr=nobs_err,uplims=uplims,capsize=5);
+plt.errorbar(masses,nobs,yerr=nobs_err,xerr=mass_err,uplims=uplims,capsize=5);
 plt.axvline(MC,ls='--',color='gray')
 plt.ylim(-2,None)
 plt.xscale('log')
 plt.xlabel(r"Compact Object Mass ($M_\odot$)")
 plt.ylabel(r"Number of Compact Objects")
-plt.savefig("pbh_nobjs.pdf")
+plt.savefig("pbh_nobserved.pdf")
 
 fig,ax = plt.subplots(1,1,figsize=(8,5))
 ax.set_yscale('log')
@@ -208,7 +226,9 @@ ax.set_xscale('log')
 
 plot_macho_limits("data/macho_limits.yaml")
 
-plt.errorbar(masses, fpbh, fmt='o', capsize=5, yerr=fpbh_err, xerr=mass_err, uplims=uplims, color=color)
+plt.errorbar(masses[~uplims], fpbh[~uplims], yerr=fpbh_err[~uplims],
+             xerr=[mass_err[0][~uplims],mass_err[1][~uplims]],
+             fmt='o', capsize=5,  color=color)
 
 plt.xlim(1e-6, 1e6)
 plt.ylim(1e-4, 1.0)
