@@ -1,4 +1,7 @@
-"""Plot showing the expected uncertainty for a positive detection of PBHs with LSST/Roman"""
+"""
+DEPRECATED: Plot showing the expected uncertainty for a positive
+detection of PBHs with LSST/Roman
+"""
 import math
 import yaml
 import numpy as np
