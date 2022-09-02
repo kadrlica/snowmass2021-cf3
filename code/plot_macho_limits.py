@@ -12,7 +12,7 @@ fig,ax = plt.subplots()
 ax.set_yscale('log')
 ax.set_xscale('log')
 
-limits = yaml.load(open('../data/macho_limits.yaml'))
+limits = yaml.load(open('data/macho_limits.yaml'))
 
 plot_lsst_limit(limits['lsst_m31_microlensing'])
 # plot_limit(limits['lsst_paralensing'])

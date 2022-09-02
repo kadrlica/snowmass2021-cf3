@@ -54,31 +54,33 @@ def setdefaults(kwargs,defaults):
         kwargs.setdefault(k,v)
     return kwargs
 
-def get_mass_limit(data):
+def get_mass_limit(data, factor=1.0):
     mass,limit = np.genfromtxt(StringIO(data['xystring'])).T
     if data.get('mass_unit') == 'gram':
         mass /= 2e33
     elif data.get('mass_unit') == 'tev':
          mass *= 1e3
+    limit *= factor
     return mass, limit
 
 def plot_text(data,**kw):
-    kwargs = dict(fontsize=data.get('fontsize',20), ha='center',  va='top', rotation=data.get('rotation',0),zorder=100)
+    kwargs = dict(fontsize=data.get('fontsize',20), ha='center',  va='top',
+                  rotation=data.get('rotation',0),zorder=100)
     kwargs.update(kw)
     return plt.text(float(data['label_x']),
                     float(data['label_y']),
                     data['style']['label'],
                     **kwargs)
 
-def plot_limit(data,**kw):
-    mass,limit = get_mass_limit(data)
+def plot_limit(data, factor=1.0, **kw):
+    mass,limit = get_mass_limit(data, factor=factor)
     kwargs = dict(**data['style'])
     kwargs.update(kw)
     kwargs.pop('label',None)
     plt.plot(mass, limit, **kwargs)
 
-def plot_limit_fill(data, low=False, **kw):
-    mass,limit = get_mass_limit(data)
+def plot_limit_fill(data, low=False, factor=1.0, **kw):
+    mass,limit = get_mass_limit(data, factor=factor)
 
     kwargs = dict(**data['style'])
     kwargs.update(kw)
@@ -92,11 +94,11 @@ def plot_limit_fill(data, low=False, **kw):
     )
 
 
-def plot_limit_final(data, low=False):
+def plot_limit_final(data, low=False, factor=1.0):
     kwargs = dict(**data['style'])
     setdefaults(kwargs,DEFAULTS)
 
-    mass,limit = get_mass_limit(data)
+    mass,limit = get_mass_limit(data, factor=factor)
     kwargs['alpha'] = 0.15
     plt.fill_between(mass, limit, y2 = 1 if not low else 0,
                      edgecolor=kwargs['color'],
