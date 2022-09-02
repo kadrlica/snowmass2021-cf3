@@ -1,5 +1,5 @@
 gammaray_background_loose_carr_2016:
-  #https://urldefense.proofpoint.com/v2/url?u=http-3A__link.aps.org_doi_10.1103_PhysRevD.94.083504&d=DwIGAg&c=gRgGjJ3BkIsb5y6s49QqsA&r=jqra9u-fMUhrjdZ82nfgRz_-t2bAIBXFoP0gVHU2oek&m=fslIJ7MxfFZh4lIH4SE4qjp_SCrCMUO5b6H09tx-HFLur8skLWQn8Zub3M4dn4iN&s=LJzt3GzYNX9ebdIorQneK2uZfcXeQwN_VqmYcWPLP78&e= 
+  #https://journals.aps.org/prd/abstract/10.1103/PhysRevD.94.083504
   
   style:
     label : 'GB'
@@ -37,7 +37,7 @@ gammaray_background_loose_carr_2016:
     9.20623E+16   0.998929
 
 gammaray_background_tight_carr_2016:
-  #https://urldefense.proofpoint.com/v2/url?u=http-3A__link.aps.org_doi_10.1103_PhysRevD.94.083504&d=DwIGAg&c=gRgGjJ3BkIsb5y6s49QqsA&r=jqra9u-fMUhrjdZ82nfgRz_-t2bAIBXFoP0gVHU2oek&m=fslIJ7MxfFZh4lIH4SE4qjp_SCrCMUO5b6H09tx-HFLur8skLWQn8Zub3M4dn4iN&s=LJzt3GzYNX9ebdIorQneK2uZfcXeQwN_VqmYcWPLP78&e= 
+  #https://journals.aps.org/prd/abstract/10.1103/PhysRevD.94.083504
   
   style:
     label : 'GB'
@@ -147,7 +147,7 @@ gammaray_femtolens_carr_2016:
      2.07913e+19 1.0
 
 ns_capture_loose_capela_2013:
-  # https://urldefense.proofpoint.com/v2/url?u=https-3A__link.aps.org_doi_10.1103_PhysRevD.87.123524&d=DwIGAg&c=gRgGjJ3BkIsb5y6s49QqsA&r=jqra9u-fMUhrjdZ82nfgRz_-t2bAIBXFoP0gVHU2oek&m=fslIJ7MxfFZh4lIH4SE4qjp_SCrCMUO5b6H09tx-HFLur8skLWQn8Zub3M4dn4iN&s=MgwyQXTGVuqdlO1eyKgjjTCLXkRebsFhUb0oVA4mc9U&e= 
+  #https://journals.aps.org/prd/abstract/10.1103/PhysRevD.87.123524
   
   style:
     label : 'NS'
@@ -193,7 +193,7 @@ ns_capture_loose_capela_2013:
     1.0369e+24   1.0
 
 ns_capture_tight_capela_2013:
-  # https://urldefense.proofpoint.com/v2/url?u=https-3A__link.aps.org_doi_10.1103_PhysRevD.87.123524&d=DwIGAg&c=gRgGjJ3BkIsb5y6s49QqsA&r=jqra9u-fMUhrjdZ82nfgRz_-t2bAIBXFoP0gVHU2oek&m=fslIJ7MxfFZh4lIH4SE4qjp_SCrCMUO5b6H09tx-HFLur8skLWQn8Zub3M4dn4iN&s=MgwyQXTGVuqdlO1eyKgjjTCLXkRebsFhUb0oVA4mc9U&e= 
+  #https://journals.aps.org/prd/abstract/10.1103/PhysRevD.87.123524
   
   style:
     label : 'NS'
@@ -1701,12 +1701,12 @@ lsst_microlensing:
   
   style:
     label : 'Rubin MW Microlensing'
-    color : 'orange' 
+    color : 'green' 
     marker : 'None'
     linestyle : '-'
     linewidth : 3
 
-  label_x : 1e-1
+  label_x : 1e-2
   label_y : 4e-4
   channel_label : ''
   conf_label : ''
@@ -1785,7 +1785,7 @@ lsst_m31_microlensing:
   
   style:
     label : 'Roman M31 Microlensing'
-    color : 'orange' 
+    color : 'green' 
     marker : 'None'
     linestyle : '-'
     linewidth : 3
@@ -2273,7 +2273,7 @@ gammaray_forecast_coogan2020:
   
   style:
     label : 'MeV gamma ray'
-    color : 'orange' 
+    color : 'green' 
     marker : 'None'
     linestyle : '-'
     linewidth : 3
