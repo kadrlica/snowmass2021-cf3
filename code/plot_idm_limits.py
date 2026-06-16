@@ -56,7 +56,7 @@ ax.set_xscale('log'); ax.set_yscale('log')
 plot_limit_patch(limits['xenon1t_cresst3_dd'],alpha=1.0,color='0.8',zorder=2)
 #plot_limit(limits['xenon1t_cresst3_dd'],alpha=1.0,color='0.8',zorder=0)
 plot_limit_fill(limits['mahdawi2019_xqc_e002'],alpha=0.7,color='0.8',zorder=2);
-plot_limit(limits['mahdawi2019_xqc_e002'],color='k',lw=1.5,ls='--',zorder=10);
+plot_limit(limits['mahdawi2019_xqc_e002'],color='k',zorder=10);
 plot_text(limits['mahdawi2019_xqc_e002'])
 ax.annotate('Direct Detection',(1e0,1e-35),color='k',fontsize=22)
 
@@ -70,7 +70,7 @@ if draw_arrows:
 #plot_limit_patch(limits['neutrino_fog_n2'],zorder=999,edgecolor='none')
 #plot_limit_patch(limits['neutrino_fog_n2_ext'],zorder=999,edgecolor='blue',alpha=0.5)
 #plot_limit_patch(limits['ohara2021_neutrino_floor'],zorder=1)
-plot_limit_patch(limits['nuetrino_xe_si_2'],zorder=1)
+plot_limit_patch(limits['neutrino_xe_si_2'],color='0.98',edgecolor='k',zorder=1)
 
 ax.annotate('Neutrino Fog',(2e-1,1e-47),color='k',fontsize=22)
 
@@ -112,8 +112,9 @@ sigma = np.logspace(-49,-30,100)
 for x in range (75, 100):
     sigma = [sigma[0],interp(mass[x])]
     #ax.fill_betweenx(sigma, mass.min(), mass[x], facecolor='green', alpha=0.02, zorder=0)
-    ax.fill_between(mass[:x], sigma[0], sigma[1], facecolor='green', alpha=0.02, zorder=0)
-ax.annotate(r'Big Bang Nucleosynthesis',(1e-3,1e-36),fontsize=14,rotation=90)
+    #ax.fill_between(mass[:x], sigma[0], sigma[1], facecolor='green', alpha=0.015, zorder=0)
+    ax.fill_between(mass[:x], sigma[0], sigma[1], facecolor='chartreuse', alpha=0.01, zorder=0)
+ax.annotate(r'Big Bang Nucleosynthesis',(3e-4,1e-36),fontsize=14,rotation=90)
 
 
 if draw_arrows:
@@ -153,10 +154,13 @@ plt.yticks(fontsize=22)
 
 plt.tight_layout()
 
-outfile = 'idm_limits.pdf'
+outbase = 'idm_limits'
 if draw_summary:
-    plt.savefig(outfile.replace('.pdf','_summary.pdf'))
-    plt.savefig(outfile.replace('.pdf','_summary.png'))
+    outfile = outbase+'_summary.pdf'
+    plt.savefig(outfile,rasterize=True)
+    plt.savefig(outfile.replace('.pdf','.png'),rasterize=True)
 else:
+    outfile = outbase+'.pdf'
     plt.savefig(outfile)
-    plt.savefig(outfile.replace('.pdf','.png'))
+    plt.savefig(outfile.replace('.pdf','.png'),rasterize=True)
+print("Wrote %s"%outfile)

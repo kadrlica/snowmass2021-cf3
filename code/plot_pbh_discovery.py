@@ -19,6 +19,7 @@ from scipy.integrate import quad
 from scipy.interpolate import interp1d
 
 from lsstplot import plot_one, plot_two, plot_limit, plot_lsst_limit
+from plot import plot_limit, plot_limit_fill, plot_limit_patch, get_mass_limit, plot_text
 
 def plot_macho_limits(filename="macho_limits.yaml"):
     """ Plot existing and projected limits.
@@ -33,6 +34,30 @@ def plot_macho_limits(filename="macho_limits.yaml"):
     """
     limits = yaml.load(open(filename))
 
+    # Aggressive (tight) limits
+    plot_limit_fill(limits['cosmic_macho_tight'],color='0.8',zorder=0)
+    plot_limit_fill(limits['hsc_niikura_2017'],color='0.8',zorder=0)
+    # Conservative (loose) limits
+    plot_limit_fill(limits['gammaray_background_loose_carr_2016'],color='g')
+    plot_limit(limits['gammaray_background_loose_carr_2016'],color='g',linewidth=3)
+
+    plot_limit_fill(limits['cosmic_macho_loose'],color='w',zorder=1,alpha=1)
+    plot_limit_fill(limits['cosmic_macho_loose'],color='g',zorder=2)
+    plot_limit(limits['cosmic_macho_loose'],color='g',linewidth=3,alpha=1.0)
+
+    ax = plt.gca()
+    ax.annotate("Milky Way"+"\n"+"Microlensing",(7e-3,2e-1),color='k',fontsize=14,va='top',ha='center')
+
+    ax.annotate("CMB",(1e4,3e-4),color='k',fontsize=14,rotation=-85)
+    ax.annotate("Dwarf"+"\n"+"Galaxies",(2e4,5e-3),color='k',fontsize=14,ha='center',rotation=-85)
+    ax.annotate("Wide Binaries",(7e4,5e-1),color='k',fontsize=14,ha='center')
+    ax.annotate("Supernova"+"\n"+"Lensing",(1e4,2e-1),color='k',fontsize=14,ha='center')
+    ax.annotate("X-Ray"+"\n"+"Binaries",(3e6,1e-3),color='k',fontsize=14,ha='center')
+
+    plot_limit(limits['lsst_microlensing'],linestyle='--')
+    ax.annotate("Rubin Microlensing",(1e-3,3.2e-4),color='k',fontsize=14,va='top')
+
+    """
     plot_lsst_limit(limits['lsst_microlensing'])
 
     plot_two(limits['gammaray_background_loose_carr_2016'],
@@ -53,7 +78,7 @@ def plot_macho_limits(filename="macho_limits.yaml"):
     plot_two(limits['plank_ali-haimoud_2016_loose'],
              limits['cmb_ricotti_2008_tight'])
     #plot_one(limits['disk_lacey_1985'])
-
+    """
 
 
 def number_of_events(f_pbh):
@@ -84,12 +109,15 @@ def get_sensitivity(filename="macho_limits.yaml"):
     arr : array of mass,sensitivity
     """
     with open(filename, 'r') as f:
-        data = yaml.safe_load(f)
-        #Rubin
-        rubin = np.array([float(x) for x in data["lsst_microlensing"]['xystring'].split()]).reshape(-1, 2)
-        #Roman
-        roman = np.array([float(x) for x in data["lsst_m31_microlensing"]['xystring'].split()]).reshape(-1, 2)
-        return np.concatenate([roman, rubin])
+        limits = yaml.safe_load(f)
+        rubin = np.array(get_mass_limit(limits["lsst_microlensing"]))
+        roman = np.array(get_mass_limit(limits["lsst_m31_microlensing"]))
+        return np.concatenate([roman.T, rubin.T])
+        ##Rubin
+        #rubin = np.array([float(x) for x in data["lsst_microlensing"]['xystring'].split()]).reshape(-1, 2)
+        ##Roman
+        #roman = np.array([float(x) for x in data["lsst_m31_microlensing"]['xystring'].split()]).reshape(-1, 2)
+        #return np.concatenate([roman, rubin])
 
 def pbh_mass_func(mass, mc = 30., sigma=0.5, fpbh = 0.05):
     """Differential log-normal mass function from Eq 3 of 1705.05567.
@@ -196,7 +224,7 @@ full_masses = np.logspace(-1,4,100)
 #full_masses, full_fpbh = integrate_pbh_mass_func(np.logspace(-1,4,100), mass_func)
 
 # Calculate number of expected PBH events and fpbh in each mass bin
-mass_bins = np.logspace(0, 3, 11)
+mass_bins = np.logspace(0, 3, 10)
 masses, fpbh, nobs = pbh_expected_events(mass_bins, mass_func, lsst_sensitivity)
 nobs_err = np.sqrt(nobs)
 fpbh_err = fpbh * np.sqrt(nobs)/nobs
@@ -240,5 +268,8 @@ plt.xlabel(r'${\rm Compact\ Object\ Mass}\ (M_\odot)$',fontsize=18)
 plt.ylabel(r'${\rm Dark\ Matter\ Fraction}$', fontsize=18)
 plt.subplots_adjust(top=0.95, bottom=0.12)
 
-plt.savefig("pbh_discovery.pdf")
+outfile="pbh_discovery.pdf"
+print("Writing %s..."%outfile)
+plt.savefig(outfile,rasterize=True)
+plt.savefig(outfile.replace('.pdf','.png'),rasterize=True)
 

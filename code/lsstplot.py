@@ -52,7 +52,7 @@ def setdefaults(kwargs,defaults):
 def get_mass_limit(data):
     mass,limit = np.genfromtxt(StringIO(data['xystring'])).T
     if data.get('mass_unit') == 'gram':
-        mass /= 2e33
+        mass /= 2.0e33
     elif data.get('mass_unit') == 'tev':
          mass *= 1e3
     return mass, limit

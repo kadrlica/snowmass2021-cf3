@@ -3344,8 +3344,10 @@ neutrino_fog_n2:
   # From CF1 report
   style:
     label : 'Neutrino Fog'
-    edgecolor : 'blue'
-    color : 'dodgerblue'
+    #edgecolor : 'blue'
+    #color : 'dodgerblue'
+    edgecolor : 'black'
+    color : '0.8'
     marker : 'None'
     linestyle : '-'
     linewidth : 3.0
@@ -3591,15 +3593,17 @@ ohara2021_neutrino_floor:
     1.00000e+4 5.31063e-47
     1.00000e+4 5.31063e-50
 
-nuetrino_xe_si_2:
+neutrino_xe_si_2:
   # From Ben Loer
   style:
     label : 'Neutrino Fog'
-    edgecolor : 'blue'
-    color : 'dodgerblue'
+    #edgecolor : 'blue'
+    #color : 'dodgerblue'
+    edgecolor : 'black'
+    color : '0.8'
     marker : 'None'
     linestyle : '--'
-    linewidth : 1.0
+    linewidth : 2.0
     alpha: 1.0
     #fontsize: 20
 
